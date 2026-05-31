@@ -13,13 +13,13 @@ public class Program
     public static void Main(string[] args)
     {
         Console.WriteLine("===================================================");
-        Console.WriteLine(" WEEK 2 PROJECT - EMPLOYEE MANAGEMENT SYSTEM");
+        Console.WriteLine(" WEEK 3 PROJECT - EMPLOYEE MANAGEMENT SYSTEM");
         Console.WriteLine(" Created By: Princess Ellis");
         Console.WriteLine("===================================================");
         Console.WriteLine();
 
         Console.WriteLine("Welcome to the Employee Management System!");
-        Console.WriteLine("This Week 2 demo demonstrates an interface and polymorphism.");
+        Console.WriteLine("This Week 3 demo demonstrates abstraction, constructors, and access specifiers.");
         Console.WriteLine();
 
         Address address1 = new Address(
@@ -94,7 +94,7 @@ public class Program
         Console.WriteLine(printableEmployee.GetDisplayInfo());
 
         Console.WriteLine("---------------------------------------------------");
-        Console.WriteLine("End of Week 2 Project Demo.");
+        Console.WriteLine("End of Week 3 Project Demo.");
     }
 
     private static void PrintEmployee(Employee employee)
