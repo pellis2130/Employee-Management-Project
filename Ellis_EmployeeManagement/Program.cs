@@ -1,104 +1,74 @@
 ﻿/*******************************************************************
 * Name: Princess Ellis
-* Date: 05/24/2026
-* Purpose: Main application class for Week 2 Employee Management
-* Project. Demonstrates interface creation and polymorphism.
+* Date: 06/07/2026
+* Purpose: Main application class for Week 4 Employee Management
+* Project. Demonstrates SQLite database CRUD operations.
 *******************************************************************/
 
 using System;
-using System.Collections.Generic;
 
 public class Program
 {
     public static void Main(string[] args)
     {
+        EmployeeDatabase database = new EmployeeDatabase();
+        database.CreateDatabase();
+
         Console.WriteLine("===================================================");
-        Console.WriteLine(" WEEK 3 PROJECT - EMPLOYEE MANAGEMENT SYSTEM");
+        Console.WriteLine(" WEEK 4 PROJECT - EMPLOYEE MANAGEMENT SYSTEM");
         Console.WriteLine(" Created By: Princess Ellis");
         Console.WriteLine("===================================================");
         Console.WriteLine();
 
         Console.WriteLine("Welcome to the Employee Management System!");
-        Console.WriteLine("This Week 3 demo demonstrates abstraction, constructors, and access specifiers.");
+        Console.WriteLine("This Week 4 demo demonstrates SQLite database CRUD operations.");
         Console.WriteLine();
 
-        Address address1 = new Address(
-            "101 Main Street",
-            "Norfolk",
-            "VA",
-            "23501");
+        Address address1 = new Address("101 Main Street", "Norfolk", "VA", "23501");
+        Address address2 = new Address("202 Oak Avenue", "Virginia Beach", "VA", "23451");
+        Address address3 = new Address("303 Pine Road", "Chesapeake", "VA", "23320");
 
-        Address address2 = new Address(
-            "202 Oak Avenue",
-            "Virginia Beach",
-            "VA",
-            "23451");
+        Employee employee1 = new SalariedEmployee(201, "Marcus", "Hill", "Sales Department", address1, 72000m);
+        Employee employee2 = new HourlyEmployee(202, "Emily", "Carter", "IT Department", address2, 28.50m, 40m);
+        Employee employee3 = new CommissionEmployee(203, "Jordan", "Smith", "Marketing Department", address3, 15000m, 0.10m);
 
-        Address address3 = new Address(
-            "303 Pine Road",
-            "Chesapeake",
-            "VA",
-            "23320");
+        Console.WriteLine("CREATE: Adding employees to the database...");
+        database.AddEmployee(employee1);
+        database.AddEmployee(employee2);
+        database.AddEmployee(employee3);
+        Console.WriteLine("Employees added successfully.");
+        Console.WriteLine();
 
-        Employee salariedEmployee = new SalariedEmployee(
-            201,
-            "Marcus",
-            "Hill",
-            "Sales Department",
-            address1,
-            72000m);
+        Console.WriteLine("READ: Displaying all employees from the database...");
+        Console.WriteLine("------------------------------------------");
+        database.DisplayAllEmployees();
+        Console.WriteLine();
 
-        Employee hourlyEmployee = new HourlyEmployee(
-            202,
-            "Emily",
-            "Carter",
-            "IT Department",
-            address2,
-            28.50m,
-            40m);
+        Console.WriteLine("READ: Displaying only Hourly Employees...");
+        Console.WriteLine("------------------------------------------");
+        database.DisplayEmployeesByType("Hourly Employee");
+        Console.WriteLine();
 
-        Employee commissionEmployee = new CommissionEmployee(
-            203,
-            "Jordan",
-            "Smith",
-            "Marketing Department",
-            address3,
-            15000m,
-            0.10m);
+        Console.WriteLine("UPDATE: Updating Employee 202 department...");
+        database.UpdateEmployeeDepartment(202, "Software Development Department");
+        Console.WriteLine("Employee updated successfully.");
+        Console.WriteLine();
 
-        // Polymorphism demonstration:
-        // A List<Employee> can store different derived employee types.
-        List<Employee> employees = new List<Employee>
-        {
-            salariedEmployee,
-            hourlyEmployee,
-            commissionEmployee
-        };
+        Console.WriteLine("READ: Displaying employees after update...");
+        Console.WriteLine("------------------------------------------");
+        database.DisplayAllEmployees();
+        Console.WriteLine();
 
-        Console.WriteLine("EMPLOYEE INFORMATION USING POLYMORPHISM");
-        Console.WriteLine("---------------------------------------------------");
+        Console.WriteLine("DELETE: Deleting Employee 203...");
+        database.DeleteEmployee(203);
+        Console.WriteLine("Employee deleted successfully.");
+        Console.WriteLine();
 
-        foreach (Employee employee in employees)
-        {
-            PrintEmployee(employee);
-            Console.WriteLine("---------------------------------------------------");
-        }
+        Console.WriteLine("READ: Displaying employees after delete...");
+        Console.WriteLine("------------------------------------------");
+        database.DisplayAllEmployees();
 
         Console.WriteLine();
-        Console.WriteLine("INTERFACE DEMONSTRATION");
-        Console.WriteLine("---------------------------------------------------");
-
-        // Interface demonstration:
-        // IPrintable can reference any class that implements it.
-        IPrintable printableEmployee = salariedEmployee;
-        Console.WriteLine(printableEmployee.GetDisplayInfo());
-
-        Console.WriteLine("---------------------------------------------------");
-        Console.WriteLine("End of Week 3 Project Demo.");
-    }
-
-    private static void PrintEmployee(Employee employee)
-    {
-        Console.WriteLine(employee.GetDisplayInfo());
+        Console.WriteLine("End of Week 4 Project Demo.");
     }
 }
