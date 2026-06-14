@@ -195,6 +195,18 @@ The demonstration video includes:
 
 ---
 
+## Project Summary
+
+The Employee Management System is a C# console application developed to demonstrate the practical application of object-oriented programming concepts and database management. The system allows users to add, update, remove, and display employee records through a menu-driven interface while storing employee information in an SQLite database for persistent storage.
+
+The application supports three employee types: Salaried Employees, Hourly Employees, and Commission Employees. Throughout the project, key programming concepts were implemented, including inheritance, polymorphism, abstraction, interfaces, composition, constructors, and access specifiers. The Address class demonstrates composition by associating address information with each employee, while the employee subclasses demonstrate inheritance and polymorphism through specialized employee behaviors.
+
+SQLite database integration allows employee records to be stored and retrieved between program executions, providing a realistic data management solution. The application continues running until the user chooses to exit, creating a complete and user-friendly experience.
+
+This project successfully combines object-oriented design principles, database interaction, and user interface development into a single functional application. It demonstrates the skills and knowledge gained throughout the course and serves as a portfolio-ready example of C# software development.
+
+---
+
 ## Author
 
 **Princess Ellis**
