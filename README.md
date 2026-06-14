@@ -177,7 +177,7 @@ dotnet run
 
 YouTube Demonstration Video:
 
-**PASTE YOUR YOUTUBE VIDEO LINK HERE**
+https://youtu.be/SPLiux223NE
 
 The demonstration video includes:
 
