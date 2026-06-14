@@ -195,26 +195,6 @@ The demonstration video includes:
 
 ---
 
-## GitHub Tags
-
-### Phase #1
-Initial project implementation demonstrating inheritance and composition.
-
-### Final Phase
-Completed application including:
-
-- Inheritance
-- Polymorphism
-- Interfaces
-- Abstract Classes
-- Constructors
-- Access Specifiers
-- Composition
-- SQLite Database Integration
-- Full Employee Management Functionality
-
----
-
 ## Author
 
 **Princess Ellis**
