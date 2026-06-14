@@ -1,8 +1,9 @@
 ﻿/*******************************************************************
 * Name: Princess Ellis
-* Date: 06/07/2026
-* Purpose: Main application class for Week 4 Employee Management
-* Project. Demonstrates SQLite database CRUD operations.
+* Date: 06/14/2026
+* Purpose: Final Project main application class for the Employee
+* Management System. Demonstrates a menu-driven console application
+* using SQLite database CRUD operations.
 *******************************************************************/
 
 using System;
@@ -14,61 +15,238 @@ public class Program
         EmployeeDatabase database = new EmployeeDatabase();
         database.CreateDatabase();
 
-        Console.WriteLine("===================================================");
-        Console.WriteLine(" WEEK 4 PROJECT - EMPLOYEE MANAGEMENT SYSTEM");
-        Console.WriteLine(" Created By: Princess Ellis");
-        Console.WriteLine("===================================================");
-        Console.WriteLine();
+        bool running = true;
 
-        Console.WriteLine("Welcome to the Employee Management System!");
-        Console.WriteLine("This Week 4 demo demonstrates SQLite database CRUD operations.");
-        Console.WriteLine();
+        while (running)
+        {
+            Console.Clear();
 
-        Address address1 = new Address("101 Main Street", "Norfolk", "VA", "23501");
-        Address address2 = new Address("202 Oak Avenue", "Virginia Beach", "VA", "23451");
-        Address address3 = new Address("303 Pine Road", "Chesapeake", "VA", "23320");
+            Console.WriteLine("===================================================");
+            Console.WriteLine(" FINAL PROJECT - EMPLOYEE MANAGEMENT SYSTEM");
+            Console.WriteLine(" Created By: Princess Ellis");
+            Console.WriteLine("===================================================");
+            Console.WriteLine();
+            Console.WriteLine("Welcome to the Employee Management System!");
+            Console.WriteLine("Please select an option from the menu below.");
+            Console.WriteLine();
+            Console.WriteLine("1. Add Employee");
+            Console.WriteLine("2. Display All Employees");
+            Console.WriteLine("3. Display Employees By Type");
+            Console.WriteLine("4. Update Employee Department");
+            Console.WriteLine("5. Remove Employee");
+            Console.WriteLine("6. Exit");
+            Console.WriteLine();
+            Console.Write("Enter your choice: ");
 
-        Employee employee1 = new SalariedEmployee(201, "Marcus", "Hill", "Sales Department", address1, 72000m);
-        Employee employee2 = new HourlyEmployee(202, "Emily", "Carter", "IT Department", address2, 28.50m, 40m);
-        Employee employee3 = new CommissionEmployee(203, "Jordan", "Smith", "Marketing Department", address3, 15000m, 0.10m);
+            string choice = Console.ReadLine() ?? "";
 
-        Console.WriteLine("CREATE: Adding employees to the database...");
-        database.AddEmployee(employee1);
-        database.AddEmployee(employee2);
-        database.AddEmployee(employee3);
-        Console.WriteLine("Employees added successfully.");
-        Console.WriteLine();
+            switch (choice)
+            {
+                case "1":
+                    AddEmployee(database);
+                    break;
 
-        Console.WriteLine("READ: Displaying all employees from the database...");
+                case "2":
+                    Console.Clear();
+                    Console.WriteLine("ALL EMPLOYEES");
+                    Console.WriteLine("------------------------------------------");
+                    database.DisplayAllEmployees();
+                    Pause();
+                    break;
+
+                case "3":
+                    DisplayEmployeesByType(database);
+                    break;
+
+                case "4":
+                    UpdateEmployee(database);
+                    break;
+
+                case "5":
+                    RemoveEmployee(database);
+                    break;
+
+                case "6":
+                    running = false;
+                    Console.WriteLine();
+                    Console.WriteLine("Thank you for using the Employee Management System!");
+                    Console.WriteLine("Goodbye!");
+                    break;
+
+                default:
+                    Console.WriteLine();
+                    Console.WriteLine("Invalid selection. Please try again.");
+                    Pause();
+                    break;
+            }
+        }
+    }
+
+    public static void AddEmployee(EmployeeDatabase database)
+    {
+        Console.Clear();
+        Console.WriteLine("ADD EMPLOYEE");
         Console.WriteLine("------------------------------------------");
-        database.DisplayAllEmployees();
-        Console.WriteLine();
 
-        Console.WriteLine("READ: Displaying only Hourly Employees...");
+        Console.Write("Enter Employee ID: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
+
+        Console.Write("Enter First Name: ");
+        string firstName = Console.ReadLine() ?? "";
+
+        Console.Write("Enter Last Name: ");
+        string lastName = Console.ReadLine() ?? "";
+
+        Console.Write("Enter Department: ");
+        string department = Console.ReadLine() ?? "";
+
+        Console.Write("Enter Street Address: ");
+        string street = Console.ReadLine() ?? "";
+
+        Console.Write("Enter City: ");
+        string city = Console.ReadLine() ?? "";
+
+        Console.Write("Enter State: ");
+        string state = Console.ReadLine() ?? "";
+
+        Console.Write("Enter Zip Code: ");
+        string zipCode = Console.ReadLine() ?? "";
+
+        Address address = new Address(street, city, state, zipCode);
+
+        Console.WriteLine();
+        Console.WriteLine("Select Employee Type:");
+        Console.WriteLine("1. Salaried Employee");
+        Console.WriteLine("2. Hourly Employee");
+        Console.WriteLine("3. Commission Employee");
+        Console.Write("Enter your choice: ");
+
+        string typeChoice = Console.ReadLine() ?? "";
+        Employee employee;
+
+        if (typeChoice == "1")
+        {
+            Console.Write("Enter Annual Salary: ");
+            decimal salary = decimal.Parse(Console.ReadLine() ?? "0");
+
+            employee = new SalariedEmployee(id, firstName, lastName, department, address, salary);
+        }
+        else if (typeChoice == "2")
+        {
+            Console.Write("Enter Hourly Rate: ");
+            decimal hourlyRate = decimal.Parse(Console.ReadLine() ?? "0");
+
+            Console.Write("Enter Hours Worked: ");
+            decimal hoursWorked = decimal.Parse(Console.ReadLine() ?? "0");
+
+            employee = new HourlyEmployee(id, firstName, lastName, department, address, hourlyRate, hoursWorked);
+        }
+        else if (typeChoice == "3")
+        {
+            Console.Write("Enter Base Salary: ");
+            decimal baseSalary = decimal.Parse(Console.ReadLine() ?? "0");
+
+            Console.Write("Enter Commission Rate Example 0.10: ");
+            decimal commissionRate = decimal.Parse(Console.ReadLine() ?? "0");
+
+            employee = new CommissionEmployee(id, firstName, lastName, department, address, baseSalary, commissionRate);
+        }
+        else
+        {
+            Console.WriteLine();
+            Console.WriteLine("Invalid employee type. Employee was not added.");
+            Pause();
+            return;
+        }
+
+        database.AddEmployee(employee);
+
+        Console.WriteLine();
+        Console.WriteLine("Employee added successfully.");
+        Pause();
+    }
+
+    public static void DisplayEmployeesByType(EmployeeDatabase database)
+    {
+        Console.Clear();
+        Console.WriteLine("DISPLAY EMPLOYEES BY TYPE");
         Console.WriteLine("------------------------------------------");
-        database.DisplayEmployeesByType("Hourly Employee");
-        Console.WriteLine();
+        Console.WriteLine("1. Salaried Employee");
+        Console.WriteLine("2. Hourly Employee");
+        Console.WriteLine("3. Commission Employee");
+        Console.Write("Enter your choice: ");
 
-        Console.WriteLine("UPDATE: Updating Employee 202 department...");
-        database.UpdateEmployeeDepartment(202, "Software Development Department");
+        string choice = Console.ReadLine() ?? "";
+        string employeeType = "";
+
+        if (choice == "1")
+        {
+            employeeType = "Salaried Employee";
+        }
+        else if (choice == "2")
+        {
+            employeeType = "Hourly Employee";
+        }
+        else if (choice == "3")
+        {
+            employeeType = "Commission Employee";
+        }
+        else
+        {
+            Console.WriteLine();
+            Console.WriteLine("Invalid employee type.");
+            Pause();
+            return;
+        }
+
+        Console.WriteLine();
+        Console.WriteLine(employeeType.ToUpper() + "S");
+        Console.WriteLine("------------------------------------------");
+
+        database.DisplayEmployeesByType(employeeType);
+
+        Pause();
+    }
+
+    public static void UpdateEmployee(EmployeeDatabase database)
+    {
+        Console.Clear();
+        Console.WriteLine("UPDATE EMPLOYEE DEPARTMENT");
+        Console.WriteLine("------------------------------------------");
+
+        Console.Write("Enter Employee ID to update: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
+
+        Console.Write("Enter New Department: ");
+        string newDepartment = Console.ReadLine() ?? "";
+
+        database.UpdateEmployeeDepartment(id, newDepartment);
+
+        Console.WriteLine();
         Console.WriteLine("Employee updated successfully.");
-        Console.WriteLine();
+        Pause();
+    }
 
-        Console.WriteLine("READ: Displaying employees after update...");
+    public static void RemoveEmployee(EmployeeDatabase database)
+    {
+        Console.Clear();
+        Console.WriteLine("REMOVE EMPLOYEE");
         Console.WriteLine("------------------------------------------");
-        database.DisplayAllEmployees();
-        Console.WriteLine();
 
-        Console.WriteLine("DELETE: Deleting Employee 203...");
-        database.DeleteEmployee(203);
-        Console.WriteLine("Employee deleted successfully.");
-        Console.WriteLine();
+        Console.Write("Enter Employee ID to remove: ");
+        int id = int.Parse(Console.ReadLine() ?? "0");
 
-        Console.WriteLine("READ: Displaying employees after delete...");
-        Console.WriteLine("------------------------------------------");
-        database.DisplayAllEmployees();
+        database.DeleteEmployee(id);
 
         Console.WriteLine();
-        Console.WriteLine("End of Week 4 Project Demo.");
+        Console.WriteLine("Employee removed successfully.");
+        Pause();
+    }
+
+    public static void Pause()
+    {
+        Console.WriteLine();
+        Console.WriteLine("Press any key to return to the main menu...");
+        Console.ReadKey();
     }
 }
